@@ -1,0 +1,6 @@
+body{
+    background-color: black;
+}
+#moving_img{
+    position: relative;
+}

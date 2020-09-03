@@ -1,0 +1,67 @@
+/*div{*/
+/*    border: black solid 1px;*/
+/*}*/
+#nav ul{
+    list-style-type: none; /*remove dots*/
+    margin: 0;
+    padding: 0;
+    background-color: #ffb861;
+    border: red solid 1px;
+}
+#nav li {
+    text-align: center;
+    border-bottom: #fd9f2b solid 1px;
+    display: inline;
+    border-bottom: blue solid 2px;
+}
+
+#nav li a{
+    color: black;
+    margin: 10px;
+    text-decoration: none;
+}
+#nav li a:hover{
+    background-color: gray;
+    font-size: large;
+    font-style: italic;
+}
+/*animation*/
+/*firstly div setup*/
+#animation{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    /*thirdly setup animation*/
+    animation-name: first_animation;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+/*secondly create keyframe*/
+@keyframes first_animation {
+    /*in keyframe we will change from ... to ...*/
+    from {background-color: red}
+    to {background-color: black}
+}
+
+#animation2{
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    animation-name: secondAnimation;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes secondAnimation {
+    0% {background-color: red; left: 0px; top: 0px; font-size: 15px;}
+    20% {background-color: #fd9f2b; left: 600px; top: 0px; font-size: 25px;}
+    40% {background-color: blueviolet; left: 600px;  font-size: 15px;}
+    60% {background-color: aqua; left: 0px; font-size: 25px;}
+    80% {background-color: crimson; left: 0px; top: 0px; font-size: 15px;}
+    100% {background-color: black}
+}
+#image_animation img{
+    transform: rotate(10deg);
+}

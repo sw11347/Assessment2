@@ -1,0 +1,23 @@
+body{
+    font-family: Bahnschrift;
+    color: blueviolet;
+    background-color: darkcyan ;
+}
+h1{
+    background-color: darkgray;
+    font-size: x-large;
+}
+h2{
+    background-color: darkgrey;
+    font-size: large;
+}
+p1{
+    background-color: darkgrey;
+    font-size: 25px;
+}
+div{
+    background-color: darkgrey;
+}
+table{
+    border: black 1px solid;
+}

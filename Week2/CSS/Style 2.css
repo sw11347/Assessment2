@@ -1,0 +1,21 @@
+h1{
+    font-size: 25px;
+    background: aquamarine;
+    color: blue;
+    font-family: ;
+}
+.group1{
+    font-size: 20px;
+
+}
+.group2{
+    font-size: small;
+    color: darkcyan;
+}
+#heading5 {
+    font-size: x-large;
+}
+#heading4 {
+    font-family: Bahnschrift;
+    font-size: xx-large;
+}

@@ -1,0 +1,19 @@
+#demo{
+
+    width: 100px;
+    height: 100px;
+    background-color: darkgray;
+    /*display: none;*/
+}
+#slide_div{
+    width: 500px;
+    height: 500px;
+    background-color: blue;
+}
+body {
+    text-align: center;
+
+}
+.table1{
+    background-color: seagreen;
+}

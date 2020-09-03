@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Condition</title>
+    <style>
+        body{
+            text-align: center;
+        }
+    </style>
+    <script src="../JS/condition.js"></script>
+</head>
+<body>
+
+    <h2>Calculate Grade</h2>
+    <p>Mark: <input type="number" id="mark_input"></p>
+    <p>Grade: <b id="show_grade"></b></p>
+    <p>Pass:<b id="show_pass"></b></p>
+    <button onclick="calculate_grade()">Show</button>
+
+    <h2>Show mark range</h2>
+    <p>
+        Grade:
+        <select id="grade_select">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+        </select>
+    </p>
+
+    <p>Range <b id="show_range"></b></p>
+<button onclick="show_mark_range()">Show Range</button>
+</body>
+</html>
