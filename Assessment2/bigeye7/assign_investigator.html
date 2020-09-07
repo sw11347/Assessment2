@@ -25,27 +25,7 @@
     </script>
 
     <script>
-        $.ajax({
-            type: 'Get',
-            dataType: 'JSON',
-            url: 'https://bigeye7.herokuapp.com/api/investigators/',
-            success: function (data) {
-                // location.reload();
 
-                i = 0;
-                while (i < data.length){
-                    Investigator = data[i];
-                    $("#investigator_id_input").append("<option value='"+Investigator.InvestigatorID+"'>"+Investigator.LastName+""+Investigator.FirstName+"</option>");
-                    i = i + 1;
-                }
-                $("#investigator_id_input").change(function(){
-                    Investigator = getInvestigatorInfo($("#investigator_id_input").val());
-                });
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
         function getInvestigatorInfo (InvestigatorID) {
             $.ajax({
                 type: 'Get',
@@ -53,8 +33,8 @@
                 url: 'https://bigeye7.herokuapp.com/api/investigators/'+InvestigatorID,
                 success: function (data) {
                     // location.reload();
-                    $("#Investigator_FirstName").text(data.FirstName);
-                    $("#Investigator_LastName").text(data.LastName);
+                    $("#investigator_first_name").text(data.FirstName);
+                    $("#investigator_last_name").text(data.LastName);
                     $("#Investigator_ID").text(data.InvestigatorID);
                     console.log(data);
                 },
@@ -63,80 +43,143 @@
                 }
             });
         }
+
         $(document).ready(function () {
-
-
-        });
-        $.ajax({
-            type: 'Get',
-            dataType: 'JSON',
-            url: 'https://bigeye7.herokuapp.com/api/cases/',
-            success: function (data) {
-                // location.reload();
-
-                i = 0;
-                while (i < data.length){
-                    Case = data[i];
-                    $("#case_id_input").append("<option value='"+Case.CaseID+"'></option>");
-                    i = i + 1;
-                }
-                $("#case_id_input").change(function(){
-                    Case = getCaseInfo($("#case_id_input").val());
-                });
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
-        function getCaseInfo (CaseID) {
+            //get investigator
             $.ajax({
                 type: 'Get',
                 dataType: 'JSON',
-                url: 'https://bigeye7.herokuapp.com/api/cases/'+ CaseID,
+                url: 'https://bigeye7.herokuapp.com/api/investigators/',
+                async:false,
                 success: function (data) {
                     // location.reload();
-                    $("#Case_ID").text(data.CaseID);
-                    console.log(data);
+
+                    i = 0;
+                    while (i < data.length){
+                        Investigator = data[i];
+                        $("#investigator_id_input").append("<option value='"+Investigator.InvestigatorID+"'>"+Investigator.LastName+" "+Investigator.FirstName+"</option>");
+                        i = i + 1;
+                    }
+                    $("#investigator_id_input").change(function(){
+
+                        getInvestigatorInfo($("#investigator_id_input").val());
+                        $("#case_id_input").empty();
+                        $("#case_id_input").append("<option value = ''>Select one</option>");
+                        cases = getValidCase($("#investigator_id_input").val());
+                        console.log(cases);
+                        j = 0;
+                        while (j<cases.length){
+                            getCaseInfo(cases[j]);
+                            j=j+1;
+                        }
+                    });
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+
+        });
+        $("#assign_investigator_but").click(function () {
+            hours1 = $("#hours_input").val();
+            investigator1 = $("#investigator_id_input").val();
+            case1 = $("#case_id_input_").val();
+
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'JSON',
+                url: 'https://bigeye7.herokuapp.com/api/assignments/',
+                data: {
+                    hours: hours1,
+                    investigator: investigator1,
+                    case: case1,
+                },
+                success: function (data) {
+                    alert('Employee assigned successfully');
+                    location.reload();
+                },
+                error: function (err) {
+                    console.log(err);
+                    errors = JSON.parse(err.responseText);
+                    console.log(errors);
+                    $("#hours_input_err").text(errors.hours);
+                    $("#employee_id_input_err").text(errors.investigator);
+                    $("#project_id_input_err").text(errors.case);
+                }
+        function getValidCase(Instigator) {
+            cases = [];
+            $.ajax({
+                type: 'Get',
+                dataType: 'JSON',
+                url: 'https://bigeye7.herokuapp.com/api/assignments/',
+                async: false,
+                success: function (data) {
+                    i = 0;
+                    while (i < data.length){
+                        ass = data[i];
+                        if (ass.Investigator != Instigator){
+                            cases.push(ass.Case);
+                        }
+                        i = i + 1;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            return cases;
+        }
+
+        function getCaseInfo (CaseID) {
+            console.log(CaseID);
+            $.ajax({
+                type: 'Get',
+                dataType: 'JSON',
+                url: 'https://bigeye7.herokuapp.com/api/cases/'+ CaseID+'/',
+                success: function (data) {
+                    // location.reload();
+                    $("#case_id_input").append("<option value='"+data.CaseID+"'>"+data.Description+"</option>")
                 },
                 error: function (err) {
                     console.log(err);
                 }
             });
         }
-        $(document).ready(function () {
 
 
-        });
+
+
     </script>
 </head>
 <body>
+<h1>Assign Investigator</h1>
 <form onsubmit ="return false">
-    <p><label> case: </label>
-        <select id="case_id_input">
-            <option value = "">Select one</option>
-        </select>
-    </p>
-<form onsubmit ="return false">
+
+
     <p><label> investigator: </label>
         <select id="investigator_id_input">
             <option value = "">Select one</option>
         </select>
     </p>
+
+    <p><label> case: </label>
+        <select id="case_id_input">
+            <option value = "">Select one</option>
+        </select>
+    </p>
+
     <table>
         <tr> <td>id:</td> <td id = "Investigator_ID"></td></tr>
         <tr> <td>last name:</td> <td id = "investigator_last_name"></td></tr>
         <tr> <td>first name:</td> <td id = "investigator_first_name"></td></tr>
-        <tr> <td>hourly rate:</td> <td id = "investigator_hourly_rate"></td></tr>
-        <tr> <td>*hours <input id="hours_input"></td></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
+        <tr> <td>*hours <input id="hours_input" type="number"></td></tr>
+
 
         <tr><td>Required Fields*</td></tr>
     </table>
-    <button>Return</button><button>Assign Investigator</button>
+    <button id="return_but">Return</button><button id="assign_investigator_but">Assign Investigator</button>
 </form>
 </body>
 </html>
